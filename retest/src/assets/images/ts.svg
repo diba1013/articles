@@ -1,0 +1,66 @@
+<svg width="150mm" height="72.4mm" version="1.1" viewBox="0 0 150 72.4" xmlns="http://www.w3.org/2000/svg">
+ <g transform="translate(18.5 -232)" shape-rendering="geometricPrecision">
+  <path d="m-9.52 246-3.95-1.77v-4.71c0-1.1 0.893-1.99 2-1.99h6.47zm-3.29-2.36s1.59 0.284 2.4 0.424c0.279 0.0494 0.564-0.0624 0.733-0.294 0.663-0.882 2.27-3.04 2.27-3.04s-1.73 3.07-2.25 3.98c-0.0809 0.143-0.258 0.203-0.407 0.135-0.736-0.323-2.75-1.21-2.75-1.21z" fill="#bed031" fill-rule="evenodd" stroke-width=".031"/>
+  <g transform="translate(132 45.5)">
+   <g transform="matrix(.265 0 0 .265 -431 26.2)">
+    <g stroke-linecap="round" stroke-linejoin="round">
+     <path d="m1352 804v26h-85q-7 0-7 9v7h-28v-42z" fill="#fff" stroke="#000"/>
+     <path d="m1352 720v26h-85q-7 0-7 9v7h-28v-42z" fill="#fff" stroke="#000"/>
+     <path d="m1352 834v19q0 7-5 7h-80q-3 0-3-7v-14q0-5 3-5z" fill="#f2f2f2" stroke="#999"/>
+     <path d="m1352 750v19q0 7-5 7h-80q-3 0-3-7v-14q0-5 3-5z" fill="#f2f2f2" stroke="#999"/>
+    </g>
+    <g fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round">
+     <path d="m1392 748v28h10"/>
+     <path d="m1152 790v28h10"/>
+     <path d="m1392 832v14h10"/>
+     <path d="m1392 748h120"/>
+     <path d="m1392 748h-10"/>
+     <path d="m1392 776v-28"/>
+     <path d="m1402 762h-10"/>
+     <path d="m1392 832h120"/>
+     <path d="m1382 832h10"/>
+     <path d="m1152 762v-56"/>
+     <path d="m1152 790h10"/>
+     <path d="m1152 762v28"/>
+     <path d="m1162 762h-10"/>
+     <path d="m1372 818v14"/>
+     <path d="m1372 818v-14"/>
+     <path d="m1352 818h20"/>
+     <path d="m1372 734h-20"/>
+     <path d="m1372 734v14"/>
+     <path d="m1372 720v14"/>
+    </g>
+    <g fill="#000000" font-family="Courier" font-size="14px" stroke-linecap="square" stroke-linejoin="round">
+     <text x="1386.5" y="739.19006"><![CDATA[Browser, PWA]]></text>
+     <text x="1417.5" y="767.19006"><![CDATA[sw.js]]></text>
+     <text x="1417.5" y="781.19006"><![CDATA[manifest.json]]></text>
+     <text x="1388.5" y="823.19006"><![CDATA[Electron]]></text>
+     <text x="1428.5" y="851.19006"><![CDATA[main.js]]></text>
+    </g>
+    <g transform="translate(1108 13.2)">
+     <path d="m140 665q-5 0-5 7v14q0 7 5 7h90q5 0 5-7v-14q0-7-5-7z" fill="#082749" fill-opacity=".196" stroke-miterlimit="0"/>
+     <text x="168.85693" y="682.67969" fill="#000000" font-family="Courier" font-size="14px" stroke-linecap="square" stroke-linejoin="round"><![CDATA[Apps]]></text>
+    </g>
+    <g fill="#000000" font-family="Courier" font-size="14px" stroke-linecap="square" stroke-linejoin="round">
+     <text x="1243.5" y="739.19006"><![CDATA[Browser]]></text>
+     <text x="1275.5" y="767.19006"><![CDATA[crust.js]]></text>
+     <text x="1243.5" y="823.19006"><![CDATA[Desktop]]></text>
+     <text x="1275.5" y="851.19006"><![CDATA[crust.js]]></text>
+     <text x="1170.5" y="767.19006"><![CDATA[UI]]></text>
+     <text x="1170.5" y="795.19006"><![CDATA[Model]]></text>
+     <text x="1170.5" y="823.19006"><![CDATA[Core]]></text>
+    </g>
+    <g transform="translate(1108 13.2)">
+     <path d="m125 672q0-7-5-7h-90q-5 0-5 7v14q0 7 5 7h90q5 0 5-7z" fill="#082749" fill-opacity=".196" stroke-miterlimit="0"/>
+     <text x="45.359375" y="683.11377" fill="#000000" font-family="Courier" font-size="14px" stroke-linecap="square" stroke-linejoin="round"><![CDATA[Library]]></text>
+    </g>
+   </g>
+   <g transform="matrix(.265 0 0 .265 -431 27.2)">
+    <path d="m1378 632h230l-10 28h-230z" fill="#bed031"/>
+    <text x="1406.26" y="652.85675" fill="#000000" font-family="DTLProkyonT" font-size="13.3px" font-weight="500" stroke-linecap="square" stroke-linejoin="round" style="font-feature-settings:normal;font-variant-caps:normal;font-variant-ligatures:normal;font-variant-numeric:normal"><![CDATA[Executables]]></text>
+    <path d="m1138 632h230l-10 28h-230z" fill="#bed031"/>
+    <text x="1167.14" y="652.85675" fill="#000000" font-family="DTLProkyonT" font-size="13.3px" font-weight="500" stroke-linecap="square" stroke-linejoin="round" style="font-feature-settings:normal;font-variant-caps:normal;font-variant-ligatures:normal;font-variant-numeric:normal"><![CDATA[TypeScript]]></text>
+   </g>
+  </g>
+ </g>
+</svg>

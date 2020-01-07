@@ -1,0 +1,80 @@
+<svg width="150mm" height="69.9mm" version="1.1" viewBox="0 0 150 69.9" xmlns="http://www.w3.org/2000/svg">
+ <defs>
+  <marker id="g" overflow="visible" orient="auto">
+   <path transform="matrix(-1.1,0,0,-1.1,-1.1,0)" d="m8.72 4.03-10.9-4.02 10.9-4.02c-1.75 2.37-1.74 5.62-6e-7 8.04z" fill-rule="evenodd" stroke="#000" stroke-linejoin="round" stroke-width=".625"/>
+  </marker>
+  <marker id="e" overflow="visible" orient="auto">
+   <path transform="matrix(-1.1,0,0,-1.1,-1.1,0)" d="m8.72 4.03-10.9-4.02 10.9-4.02c-1.75 2.37-1.74 5.62-6e-7 8.04z" fill-rule="evenodd" stroke="#000" stroke-linejoin="round" stroke-width=".625"/>
+  </marker>
+  <marker id="b" overflow="visible" orient="auto">
+   <path transform="matrix(-1.1,0,0,-1.1,-1.1,0)" d="m8.72 4.03-10.9-4.02 10.9-4.02c-1.75 2.37-1.74 5.62-6e-7 8.04z" fill-rule="evenodd" stroke="#000" stroke-linejoin="round" stroke-width=".625"/>
+  </marker>
+  <marker id="a" overflow="visible" orient="auto">
+   <path transform="matrix(1.1,0,0,1.1,1.1,0)" d="m8.72 4.03-10.9-4.02 10.9-4.02c-1.75 2.37-1.74 5.62-6e-7 8.04z" fill-rule="evenodd" stroke="#000" stroke-linejoin="round" stroke-width=".625"/>
+  </marker>
+  <marker id="f" overflow="visible" orient="auto">
+   <path transform="matrix(1.1,0,0,1.1,1.1,0)" d="m8.72 4.03-10.9-4.02 10.9-4.02c-1.75 2.37-1.74 5.62-6e-7 8.04z" fill-rule="evenodd" stroke="#000" stroke-linejoin="round" stroke-width=".625"/>
+  </marker>
+  <marker id="c" overflow="visible" orient="auto">
+   <path transform="matrix(-1.1,0,0,-1.1,-1.1,0)" d="m8.72 4.03-10.9-4.02 10.9-4.02c-1.75 2.37-1.74 5.62-6e-7 8.04z" fill-rule="evenodd" stroke="#000" stroke-linejoin="round" stroke-width=".625"/>
+  </marker>
+  <marker id="d" overflow="visible" orient="auto">
+   <path transform="matrix(-1.1,0,0,-1.1,-1.1,0)" d="m8.72 4.03-10.9-4.02 10.9-4.02c-1.75 2.37-1.74 5.62-6e-7 8.04z" fill-rule="evenodd" stroke="#000" stroke-linejoin="round" stroke-width=".625"/>
+  </marker>
+ </defs>
+ <g transform="translate(18.5 -232)" shape-rendering="geometricPrecision">
+  <g transform="matrix(.265 0 0 .265 -298 1.35)" stroke-linejoin="round">
+   <g stroke="#000" stroke-linecap="round">
+    <path d="m1312 1040h28v-56h82v-26h-110z" fill="#fff"/>
+    <path d="m1312 1044v26h110v-26z" fill="#fff"/>
+    <path d="m1502 986v-21q0-7 5-7h95v21q0 7-5 7z" fill="#f2f2f2"/>
+   </g>
+   <g fill="#fff" stroke="#000" stroke-linecap="round">
+    <path d="m1502 1042v28h100v-28z"/>
+    <path d="m1132 1042v28h100v-28z"/>
+    <path d="m1132 958v28h100v-28z"/>
+   </g>
+   <path d="m1344 1012v-24h78v24z" fill="#f2f2f2" stroke="#999" stroke-linecap="round"/>
+   <path d="m1344 1016v24h78v-24z" fill="#f2f2f2" stroke="#999" stroke-linecap="round"/>
+   <g fill="none" stroke="#000" stroke-linecap="round">
+    <path d="m1432 1e3h20v28h-20" marker-end="url(#g)"/>
+    <g>
+     <path d="m1442 1042v14h40" marker-end="url(#e)"/>
+     <path d="m1332 1112h-10v-14"/>
+     <path d="m1142 1098v14h10"/>
+     <path d="m1322 1098h-10"/>
+     <path d="m1322 1098h280"/>
+     <path d="m1142 1098h-10"/>
+     <path d="m1242 1098h-100"/>
+     <path d="m1172 1e3v28" marker-end="url(#b)"/>
+     <path d="m1192 1e3v28" marker-start="url(#a)"/>
+     <path d="m1292 972h-40" marker-end="url(#c)" marker-start="url(#f)"/>
+     <path d="m1512 986v42" marker-end="url(#d)"/>
+    </g>
+   </g>
+   <g fill="#000000" font-family="Courier" font-size="14px" stroke-linecap="square">
+    <text x="1140.4829" y="976.36682"><![CDATA[Controller]]></text>
+    <text x="1160.5" y="1117.1901"><![CDATA[UI]]></text>
+    <text x="1165.8477" y="1060.5104"><![CDATA[View]]></text>
+    <text x="1211.5" y="1019.1901"><![CDATA[Bind]]></text>
+    <text x="1366.417" y="1032.3669"><![CDATA[Task]]></text>
+    <text x="1325.9199" y="1061.5104"><![CDATA[Domain]]></text>
+    <text x="1325.7764" y="976.36646"><![CDATA[Ports]]></text>
+    <text x="1340.5" y="1117.1901"><![CDATA[Model]]></text>
+    <text x="1362.418" y="1004.3668"><![CDATA[State]]></text>
+    <text x="1515.7354" y="1060.5104"><![CDATA[Services]]></text>
+    <text x="1521.5" y="1007.1901"><![CDATA[Injects]]></text>
+    <text x="1516.8838" y="974.86975"><![CDATA[App]]></text>
+   </g>
+  </g>
+  <g transform="matrix(.265 0 0 .265 -298 2.36)">
+   <path d="m1138 898h230l-10 28h-230z" fill="#bed031"/>
+   <text x="1166.42" y="917.77673" fill="#000000" font-family="DTLProkyonT" font-size="13.3px" font-weight="500" stroke-linecap="square" stroke-linejoin="round" style="font-feature-settings:normal;font-variant-caps:normal;font-variant-ligatures:normal;font-variant-numeric:normal"><tspan x="1166.42" y="917.77673">Model View Controller</tspan></text>
+  </g>
+  <g transform="matrix(.265 0 0 .265 -298 2.36)">
+   <path d="m1378 898h230l-10 28h-230z" fill="#bed031"/>
+   <text x="1406.26" y="917.77673" fill="#000000" font-family="DTLProkyonT" font-size="13.3px" font-weight="500" stroke-linecap="square" stroke-linejoin="round" style="font-feature-settings:normal;font-variant-caps:normal;font-variant-ligatures:normal;font-variant-numeric:normal"><tspan x="1406.26" y="917.77673">Data Binding</tspan></text>
+  </g>
+  <path d="m-9.52 246-3.95-1.77v-4.71c0-1.1 0.893-1.99 2-1.99h6.47zm-3.29-2.36s1.59 0.284 2.4 0.424c0.279 0.0494 0.564-0.0624 0.733-0.294 0.663-0.882 2.27-3.04 2.27-3.04s-1.73 3.07-2.25 3.98c-0.0809 0.143-0.258 0.203-0.407 0.135-0.736-0.323-2.75-1.21-2.75-1.21z" fill="#bed031" fill-rule="evenodd" stroke-width=".031"/>
+ </g>
+</svg>
