@@ -13,7 +13,13 @@
                     "name": "recheck"
                 },
                 {
-                    "name": "recheck-web"
+                    "name": "recheck-web",
+                    "files": [
+                        {
+                            "title": "Automatic Code Healing with recheck-web",
+                            "name": "healing"
+                        }
+                    ]
                 }
             ]
         }
