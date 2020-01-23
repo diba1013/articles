@@ -20,6 +20,15 @@
                             "name": "healing"
                         }
                     ]
+                },
+                {
+                    "name": "releases",
+                    "files": [
+                        {
+                            "title": "Releases",
+                            "name": "index"
+                        }
+                    ]
                 }
             ]
         }
