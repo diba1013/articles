@@ -10,3 +10,5 @@ This series should collect and summarize the changes made for the following ***r
 ## Table of contents
 
 Available releases:
+
+1. [v1.9.0](v1.9.0.html): The auto healing update.
