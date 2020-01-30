@@ -20,6 +20,19 @@
                             "name": "healing"
                         }
                     ]
+                },
+                {
+                    "name": "releases",
+                    "files": [
+                        {
+                            "title": "Releases",
+                            "name": "index"
+                        },
+                        {
+                            "title": "Version v1.9.0",
+                            "name": "v1.9.0"
+                        }
+                    ]
                 }
             ]
         }
