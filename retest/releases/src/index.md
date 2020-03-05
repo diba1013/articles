@@ -12,3 +12,4 @@ This series should collect and summarize the changes made for the following ***r
 Available releases:
 
 1. [v1.9.0](v1.9.0.html): The auto healing update.
+2. [v1.10.0](v1.10.0.html): The filter update.
