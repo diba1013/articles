@@ -4,6 +4,8 @@ const rename = require("gulp-rename")
 const fs = require("fs");
 
 const sass = require("gulp-sass")
+sass.compiler = require("sass");
+
 const csso = require("gulp-csso")
 
 const markdown = require("gulp-markdownit")
