@@ -19,8 +19,13 @@ const src = {
     handlebars: {
         partials: `${config.root}/assets/partials/**/*.hbs`,
         template: `${config.root}/assets/template.hbs`,
-    }
+    },
+    images: [
+        "./node_modules/bootstrap-icons/bootstrap-icons.svg"
+    ]
 }
+
+config.images = src.images;
 
 // Gulp pipeline options
 
@@ -130,7 +135,9 @@ function createCategory(root, parent, category) {
         path: out || "root",
         src: {
             css: resolve(src, "src/assets/css/*.scss"),
-            images: resolve(src, "src/assets/images/**")
+            images: [
+                resolve(src, "src/assets/images/**"),
+            ].concat(category.images || [])
         },
         out: {
             css: resolve(config.out, resolve(out, "assets/css")),
