@@ -1,0 +1,22 @@
+$font-path: 'https://assets.retest.org/retest/ci/fonts';
+
+@font-face {
+    font-family: 'DTLProkyonT';
+    src: url("#{$font-path}/dtl-prokyon-t_14675-webfont.woff2") format("woff2"), url("#{$font-path}/dtl-prokyon-t_14675-webfont.woff") format("woff"), url("#{$font-path}/dtl-prokyon-t_14675-webfont.tff") format("tff");
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face{
+    font-family: 'DTLProkyonT';
+    src: url("#{$font-path}/dtl-prokyon-t-light_14672-webfont.woff2") format("woff2"), url("#{$font-path}/dtl-prokyon-t-light_14672-webfont.woff") format("woff"), url("#{$font-path}/dtl-prokyon-t-light_14672-webfont.tff") format("tff");
+    font-weight: 100;
+    font-style: normal;
+}
+
+@font-face{
+    font-family: 'DTLProkyonT';
+    src: url("#{$font-path}/dtl-prokyon-t-medium_14674-webfont.woff2") format("woff2"), url("#{$font-path}/dtl-prokyon-t-medium_14674-webfont.woff") format("woff"), url("#{$font-path}/dtl-prokyon-t-medium_14674-webfont.tff") format("tff");
+    font-weight: 500;
+    font-style: normal;
+}

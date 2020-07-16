@@ -1,0 +1,12 @@
+#header {
+    @extend .bg-white, .shadow-sm;
+
+    img, svg {
+        display: block;
+        height: 2rem;
+
+        @include media-breakpoint-up(lg) {
+            height: 2.5rem;
+        }
+    }
+}

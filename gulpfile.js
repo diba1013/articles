@@ -119,7 +119,7 @@ function createCategory(root, parent, category) {
 
     const data = {
         logo: exists(resolve(src, "src/assets/images/logo.svg")) ? resolve(out, "assets/images/logo.svg") : parent.logo,
-        styles: exists(resolve(src, "src/assets/css/index.sass")) ? parent.styles.concat([resolve(out, "assets/css/index.css")]) : parent.styles,
+        styles: exists(resolve(src, "src/assets/css/index.scss")) ? parent.styles.concat([resolve(out, "assets/css/index.css")]) : parent.styles,
     }
 
     const categories = category.categories ? category.categories.map(c => createCategory(paths, data, c)) : undefined
@@ -129,7 +129,7 @@ function createCategory(root, parent, category) {
         name: category.name || "root",
         path: out || "root",
         src: {
-            css: resolve(src, "src/assets/css/*.sass"),
+            css: resolve(src, "src/assets/css/*.scss"),
             images: resolve(src, "src/assets/images/**")
         },
         out: {
