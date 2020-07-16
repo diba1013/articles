@@ -1,0 +1,51 @@
+@use 'sass:color';
+@import 'bootstrap/scss/functions';
+
+$white:    #fff !default;
+$gray-100: #f8f9fa !default;
+$gray-200: #e9ecef !default;
+$gray-300: #dee2e6 !default;
+$gray-400: #ced4da !default;
+$gray-500: #adb5bd !default;
+$gray-600: #6c757d !default;
+$gray-700: #495057 !default;
+$gray-800: #343a40 !default;
+$gray-900: #212529 !default;
+$black:    #000 !default;
+
+$yiq-contrasted-threshold:  150 !default;
+
+$yiq-text-dark: $gray-900;
+$yiq-text-light: $white;
+
+$theme-light: $gray-100;
+$theme-dark: $gray-600;
+
+// Variables
+
+$theme-background-color: var(--theme-background-color);
+$theme-border-color: var(--theme-background-color);
+$theme-color: var(--theme-color);
+
+@mixin create(
+    $background, 
+    $border: color.adjust($background, $lightness: -7.5%),
+) {
+    --theme-background-color: #{$background};
+    --theme-border-color: #{$border};
+    --theme-color: #{color-yiq($background)};
+}
+
+// Themes
+
+body[data-theme=light] {
+    @include create(
+        $background: $theme-light,
+    )
+};
+
+body[data-theme=dark] {
+    @include create(
+        $background: $theme-dark,
+    )
+}
