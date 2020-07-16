@@ -5,6 +5,15 @@
             <img src="{{server.path}}/{{category.logo}}" alt="Logo">
             {{/if}}
         </a>
+
+        <button id="theme" class="ml-auto" data-theme="light" data-target="body">
+            <input type="checkbox" id="checkbox" />
+            <div class="dot">
+                {{> svg/svg file="bootstrap-icons" name="brightness-high" class="theme-dark-icon"}}
+                {{> svg/svg file="bootstrap-icons" name="brightness-high-fill" class="theme-light-icon"}}
+            </div>
+        </button>
+
     </nav>
     {{#if article.wip}}
     <div class="alert alert-warning alert-dismissible fade show text-center" role="alert">
