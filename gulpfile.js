@@ -13,7 +13,8 @@ const markdown = require("gulp-markdownit")
 const handlebars = require("gulp-hb");
 const inline = require('gulp-inline-source')
 
-const config = require("./config.json")
+const config = require("./config.json");
+const { PRIORITY_BELOW_NORMAL } = require("constants");
 
 const src = {
     handlebars: {
@@ -134,12 +135,14 @@ function createCategory(root, parent, category) {
         name: category.name || "root",
         path: out || "root",
         src: {
+            js: resolve(src, "src/assets/javascript/*.js"),
             css: resolve(src, "src/assets/css/*.scss"),
             images: [
                 resolve(src, "src/assets/images/**"),
             ].concat(category.images || [])
         },
         out: {
+            js: resolve(config.out, resolve(out, "assets/javascript")),
             css: resolve(config.out, resolve(out, "assets/css")),
             images: resolve(config.out, resolve(out, "assets/images"))
         },
@@ -173,6 +176,13 @@ function copyImages(category) {
         `copy:img:${category.path}`,
         copy(category.src.images, category.out.images)
     );
+}
+
+function compileJS(category) {
+    return private(
+        `compile:js:${category.path}`,
+        copy(category.src.js, category.out.js)
+    )
 }
 
 function compileCSS(category) {
@@ -245,6 +255,7 @@ function flattenTasks(category) {
     const tasks = [
         gulp.parallel(
             copyImages(category),
+            compileJS(category),
             compileCSS(category)
         )
     ]
