@@ -18,7 +18,7 @@ $yiq-contrasted-threshold:  150 !default;
 $yiq-text-dark: $gray-900;
 $yiq-text-light: $white;
 
-$theme-light: $gray-100;
+$theme-light: $gray-200;
 $theme-dark: $gray-600;
 
 // Variables
@@ -27,13 +27,21 @@ $theme-background-color: var(--theme-background-color);
 $theme-border-color: var(--theme-background-color);
 $theme-color: var(--theme-color);
 
+$body-bg: var(--body-bg);
+$body-color: var(--body-color);
+
 @mixin create(
-    $background, 
+    $background,
     $border: color.adjust($background, $lightness: -7.5%),
+    $body-bg,
+    $body-color,
 ) {
     --theme-background-color: #{$background};
     --theme-border-color: #{$border};
     --theme-color: #{color-yiq($background)};
+
+    --body-bg: #{$body-bg};
+    --body-color: #{$body-color};
 }
 
 // Themes
@@ -41,11 +49,15 @@ $theme-color: var(--theme-color);
 body[data-theme=light] {
     @include create(
         $background: $theme-light,
+        $body-bg: $white,
+        $body-color: $gray-900
     )
 };
 
 body[data-theme=dark] {
     @include create(
         $background: $theme-dark,
+        $body-bg: $gray-900,
+        $body-color: $gray-100
     )
 }
