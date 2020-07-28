@@ -1,0 +1,13 @@
+{
+    "categories": [
+        {
+            "path": "retest"
+        }
+    ],
+    "files": [
+        {
+            "title": "Example Article",
+            "name": "index"
+        }
+    ]
+}

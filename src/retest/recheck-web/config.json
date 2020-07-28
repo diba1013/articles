@@ -1,0 +1,9 @@
+{
+    "name": "recheck-web",
+    "files": [
+        {
+            "title": "Automatic Code Healing with recheck-web",
+            "name": "healing"
+        }
+    ]
+}

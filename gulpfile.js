@@ -13,12 +13,12 @@ const markdown = require("gulp-markdownit")
 const handlebars = require("gulp-hb");
 const inline = require('gulp-inline-source')
 
-const config = require("./config.json")
+const layout = require("./config/layout.json")
 
 const src = {
     handlebars: {
-        partials: `${config.root}/assets/partials/**/*.hbs`,
-        template: `${config.root}/assets/template.hbs`,
+        partials: `${layout.root}/assets/partials/**/*.hbs`,
+        template: `${layout.root}/assets/template.hbs`,
     }
 }
 
@@ -28,35 +28,7 @@ const options = {
     sass: {
         includePaths: ["node_modules"]
     },
-    markdown: {
-        options: {
-            linkify: true,
-            typographer: true,
-        },
-        plugins: [
-            {
-                plugin: require("markdown-it-footnote")
-            },
-            {
-                plugin: require("markdown-it-github-headings"),
-            },
-            {
-                plugin: require("markdown-it-attrs"),
-                options: {
-                    allowedAttributes: ["id", "class", /^data(-\w+)+$/]
-                }
-            },
-            {
-                plugin: require("markdown-it-implicit-figures"),
-                options: {
-                    figcaption: true
-                }
-            },
-            {
-                plugin: require("markdown-it-highlightjs")
-            }
-        ]
-    }
+    markdown: require("./config/options")
 }
 
 /* Tasks */
@@ -108,50 +80,58 @@ function clean(src, alt) {
 
 // Category
 
-function createCategory(root, parent, category) {
-    const src = resolve(root.src, category.path || category.name);
-    const out = resolve(root.out, category.name);
+function createCategory(root, parent, cat) {
+    const category = cat.path ? require(`${root.src}/${cat.path}/config.json`) : cat;
 
-    const paths = {
-        src: resolve(src, config.category),
-        out: out
+    const stub = {
+        src: resolve(root.src, category.name),
+        out: resolve(root.out, category.name),
+        path: resolve(root.path, category.name),
+        options: {
+            ...parent.options,
+            ...category.options
+        }
     }
 
+    const url = resolve(parent.url, category.name);
     const data = {
-        logo: exists(resolve(src, "src/assets/images/logo.svg")) ? resolve(out, "assets/images/logo.svg") : parent.logo,
-        styles: exists(resolve(src, "src/assets/css/index.sass")) ? parent.styles.concat([resolve(out, "assets/css/index.css")]) : parent.styles,
-    }
+        logo: exists(`${stub.src}/assets/images/logo.svg`) ? `${url}/assets/images/logo.svg` : parent.logo,
+        styles: exists(`${stub.src}/assets/css/index.sass`) ? parent.styles.concat([`${url}/assets/css/index.css`]) : parent.styles,
+        url: url
+    };
 
-    const categories = category.categories ? category.categories.map(c => createCategory(paths, data, c)) : undefined
-    const articles = category.files ? category.files.map(a => createArticle({ src: src, out: out }, a)) : undefined;
+    const categories = category.categories ? category.categories.map(c => createCategory(stub, data, c)) : undefined;
+    const articles = category.files ? category.files.map(a => createArticle(stub, a)) : undefined;
 
     return {
-        name: category.name || "root",
-        path: out || "root",
+        name: category.name,
+        path: stub.path,
+        options: stub.options,
         src: {
-            css: resolve(src, "src/assets/css/*.sass"),
-            images: resolve(src, "src/assets/images/**")
+            css: `${stub.src}/assets/css/*.sass`,
+            images: `${stub.src}/assets/images/**`
         },
         out: {
-            css: resolve(config.out, resolve(out, "assets/css")),
-            images: resolve(config.out, resolve(out, "assets/images"))
+            css: `${stub.out}/assets/css`,
+            images: `${stub.out}/assets/images`
         },
-        articles: articles,
         categories: categories,
+        articles: articles,
         data: {
             logo: data.logo,
             styles: data.styles,
-            path: out,
+            path: data.url,
+            categories: categories ? categories.map(category => category.data) : undefined,
             articles: articles ? articles.map(article => article.data) : undefined
         }
-    }
+    };
 }
 
 function createArticle(root, article) {
     return {
         name: article.name,
-        src: resolve(root.src, `src/${article.name}.md`),
-        out: resolve(config.out, root.out),
+        src: resolve(root.src, `${article.name}.md`),
+        out: root.out,
         data: {
             title: article.title,
             wip: article.wip
@@ -202,7 +182,7 @@ function injectHTML(category, article) {
                 .data({
                     category: category.data,
                     article: article.data,
-                    server: config.server,
+                    server: layout.server,
                     content: read(`${article.out}/raw/${article.name}.html`),
                 })
 
@@ -211,11 +191,11 @@ function injectHTML(category, article) {
                 .pipe(rename(`${article.name}.html`))
                 .pipe(gulp.dest(article.out))
 
-            if (config.standalone) {
+            if (category.options.standalone) {
                 return template
                     .pipe(inline({
                         attribute: false,
-                        rootpath: config.out,
+                        rootpath: layout.out,
                         saveRemote: false,
                         svgAsImage: true,
                     }))
@@ -258,10 +238,17 @@ function flattenTasks(category) {
 
 // Global
 
-public("clean", clean(config.out));
+public("clean", clean(layout.out));
 
-public("build", flattenTasks(createCategory({}, {
-    styles: []
-}, config)));
+const boot = createCategory({
+    src: `./${layout.root}`,
+    out: `./${layout.out}`,
+    path: ""
+}, {
+    styles: [],
+    url: layout.server.path
+}, require(`./${layout.root}/config.json`));
+
+public("build", flattenTasks(boot));
 
 public("install", gulp.series("clean", "build"));
