@@ -1,0 +1,18 @@
+{
+    "name": "retest",
+    "categories": [
+        {
+            "path": "recheck-web"
+        },
+        {
+            "path": "releases"
+        }
+    ],
+    "files": [
+        {
+            "title": "Writing a Modular Typescript Project",
+            "name": "modular",
+            "wip": true
+        }
+    ]
+}
