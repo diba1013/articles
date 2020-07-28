@@ -105,8 +105,8 @@ function createCategory(root, parent, category) {
             images: resolve(src, "src/assets/images/**")
         },
         out: {
-            css: resolve(config.out, resolve(out, "assets/css")),
-            images: resolve(config.out, resolve(out, "assets/images"))
+            css: resolve(resolve(config.out, config.server.path), resolve(out, "assets/css")),
+            images: resolve(resolve(config.out, config.server.path), resolve(out, "assets/images"))
         },
         articles: articles,
         categories: categories,
@@ -123,7 +123,7 @@ function createArticle(root, article) {
     return {
         name: article.name,
         src: resolve(root.src, `src/${article.name}.md`),
-        out: resolve(config.out, root.out),
+        out: resolve(resolve(config.out, config.server.path), root.out),
         data: {
             title: article.title,
             wip: article.wip
@@ -187,7 +187,7 @@ function injectHTML(category, article) {
                 return template
                     .pipe(inline({
                         attribute: false,
-                        rootpath: config.out,
+                        rootpath: resolve(config.out, config.server.path),
                         saveRemote: false,
                         svgAsImage: true,
                     }))
