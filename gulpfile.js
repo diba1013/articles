@@ -15,13 +15,6 @@ const inline = require('gulp-inline-source')
 
 const layout = require("./config/layout.json")
 
-const src = {
-    handlebars: {
-        partials: `${layout.root}/assets/partials/**/*.hbs`,
-        template: `${layout.root}/assets/template.hbs`,
-    }
-}
-
 // Gulp pipeline options
 
 const options = {
@@ -97,19 +90,25 @@ function createCategory(root, parent, cat) {
     const data = {
         logo: exists(`${stub.src}/assets/images/logo.svg`) ? `${url}/assets/images/logo.svg` : parent.logo,
         styles: exists(`${stub.src}/assets/css/index.sass`) ? parent.styles.concat([`${url}/assets/css/index.css`]) : parent.styles,
+        templates: {
+            partials: parent.templates.partials.concat([`${stub.src}/assets/templates/partials/**/*.hbs`]),
+            index: exists(`${stub.src}/assets/templates/index.hbs`) ? `${stub.src}/assets/templates/index.hbs` : parent.templates.index,
+            layout: exists(`${stub.src}/assets/templates/layout.hbs`) ? `${stub.src}/assets/templates/layout.hbs` : parent.templates.layout,
+        },
         url: url
     };
 
     const categories = category.categories ? category.categories.map(c => createCategory(stub, data, c)) : undefined;
-    const articles = category.files ? category.files.map(a => createArticle(stub, a)) : undefined;
+    const articles = category.files ? category.files.map(a => createArticle(stub, data, a)) : undefined;
 
     return {
-        name: category.name,
-        path: stub.path,
+        name: category.name || "root",
+        path: stub.path || "root",
         options: stub.options,
         src: {
             css: `${stub.src}/assets/css/*.sass`,
-            images: `${stub.src}/assets/images/**`
+            images: `${stub.src}/assets/images/**`,
+            partials: data.templates.partials
         },
         out: {
             css: `${stub.out}/assets/css`,
@@ -127,11 +126,12 @@ function createCategory(root, parent, cat) {
     };
 }
 
-function createArticle(root, article) {
+function createArticle(root, parent, article) {
     return {
         name: article.name,
         src: resolve(root.src, `${article.name}.md`),
         out: root.out,
+        template: article.name === "index" ? parent.templates.index || parent.templates.layout : parent.templates.layout,
         data: {
             title: article.title,
             wip: article.wip
@@ -178,7 +178,7 @@ function injectHTML(category, article) {
         `build:html:${category.path}:${article.name}`,
         () => {
             const engine = handlebars()
-                .partials(src.handlebars.partials)
+                .partials(category.src.partials)
                 .data({
                     category: category.data,
                     article: article.data,
@@ -186,7 +186,7 @@ function injectHTML(category, article) {
                     content: read(`${article.out}/raw/${article.name}.html`),
                 })
 
-            const template = gulp.src(src.handlebars.template)
+            const template = gulp.src(article.template)
                 .pipe(engine) //
                 .pipe(rename(`${article.name}.html`))
                 .pipe(gulp.dest(article.out))
@@ -246,6 +246,9 @@ const boot = createCategory({
     path: ""
 }, {
     styles: [],
+    templates: {
+        partials: []
+    },
     url: layout.server.path
 }, require(`./${layout.root}/config.json`));
 
