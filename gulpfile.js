@@ -6,14 +6,9 @@ const fs = require("fs");
 const sass = require("gulp-sass")
 sass.compiler = require("sass");
 
-const csso = require("gulp-csso")
+const csso = require("gulp-csso");
 
-const markdown = require("gulp-markdownit")
-
-const handlebars = require("gulp-hb");
-const inline = require('gulp-inline-source')
-
-const layout = require("./config/layout.json")
+const layout = require("./config/layout.json");
 
 // Gulp pipeline options
 
@@ -162,55 +157,57 @@ function compileCSS(category) {
 
 // Markdown to HTML
 
-function compileMarkdown(category, article) {
+const markdown = require("markdown-it")(options.markdown)
+
+const handlebars = require("handlebars");
+const hb = require("handlebars-wax");
+const through = require("through2");
+
+function compile(compiler, article) {
+    return through.obj((file, enc, cb) => {
+        // Is it necessary to handle file.isNull() and file.isStream()?
+        try {
+            const html = compiler.compile(read(article.template));
+            const template = compiler.compile(file.contents.toString());
+
+            const context = {
+                file: file.data,
+                article: article.data
+            }
+
+            // Compile raw markdown into file
+            const contents = Buffer.from(markdown.render(template(context, {
+                data: {
+                    server: layout.server
+                }
+            })));
+
+            // Compile html template into file
+            file.contents = Buffer.from(html(context, {
+                data: {
+                    file: {
+                        contents: contents
+                    },
+                    server: layout.server
+                }
+            }))
+
+            cb(null, file)
+        } catch (err) {
+            cb(err)
+        }
+    });
+}
+
+function compileMarkdown(compiler, category, article) {
     return private(
         `compile:html:${category.path}:${article.name}`,
         () => {
             return gulp.src(article.src)
-                .pipe(markdown(options.markdown))
-                .pipe(gulp.dest(`${article.out}/raw`))
-        }
-    )
-}
-
-function injectHTML(category, article) {
-    return private(
-        `build:html:${category.path}:${article.name}`,
-        () => {
-            const engine = handlebars()
-                .partials(category.src.partials)
-                .data({
-                    category: category.data,
-                    article: article.data,
-                    server: layout.server,
-                    content: read(`${article.out}/raw/${article.name}.html`),
-                })
-
-            const template = gulp.src(article.template)
-                .pipe(engine) //
+                .pipe(compile(compiler, article))
                 .pipe(rename(`${article.name}.html`))
-                .pipe(gulp.dest(article.out))
-
-            if (category.options.standalone) {
-                return template
-                    .pipe(inline({
-                        attribute: false,
-                        rootpath: layout.out,
-                        saveRemote: false,
-                        svgAsImage: true,
-                    }))
-                    .pipe(gulp.dest(`${article.out}/standalone`))
-            }
-
-            return template;
+                .pipe(gulp.dest(article.out));
         }
-    )
-}
-
-function buildMarkdown(category, article) {
-    return gulp.series(
-        compileMarkdown(category, article),
-        injectHTML(category, article)
     )
 }
 
@@ -223,8 +220,14 @@ function flattenTasks(category) {
     ]
 
     if (category.articles) {
+        const wax = hb(handlebars)
+            .partials(category.src.partials)
+            .data({
+                category: category.data
+            })
+
         tasks.push(gulp.parallel(
-            category.articles.map(article => buildMarkdown(category, article))
+            category.articles.map(article => compileMarkdown(wax, category, article))
         ))
     }
 
