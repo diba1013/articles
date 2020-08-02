@@ -15,8 +15,7 @@ const layout = require("./config/layout.json");
 const options = {
     sass: {
         includePaths: ["node_modules"]
-    },
-    markdown: require("./config/options")
+    }
 }
 
 /* Tasks */
@@ -87,7 +86,6 @@ function createCategory(root, parent, cat) {
         styles: exists(`${stub.src}/assets/css/index.sass`) ? parent.styles.concat([`${url}/assets/css/index.css`]) : parent.styles,
         templates: {
             partials: parent.templates.partials.concat([`${stub.src}/assets/templates/partials/**/*.hbs`]),
-            index: exists(`${stub.src}/assets/templates/index.hbs`) ? `${stub.src}/assets/templates/index.hbs` : parent.templates.index,
             layout: exists(`${stub.src}/assets/templates/layout.hbs`) ? `${stub.src}/assets/templates/layout.hbs` : parent.templates.layout,
         },
         url: url
@@ -157,7 +155,18 @@ function compileCSS(category) {
 
 // Markdown to HTML
 
-const markdown = require("markdown-it")(options.markdown)
+const markdown = initMarkdown();
+
+function initMarkdown() {
+    const mardown = require("markdown-it")
+    const options = require("./config/markdown")
+    const md = mardown(options.preset || 'default', options.options);
+    for (const plugin of options.plugins) {
+        md.use(require(plugin.name), plugin.options)
+    }
+    return md;
+}
+
 
 const handlebars = require("handlebars");
 const hb = require("handlebars-wax");

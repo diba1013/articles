@@ -1,31 +1,29 @@
-const markdown = {
+module.exports = {
     options: {
         linkify: true,
         typographer: true,
     },
     plugins: [
         {
-            plugin: require("markdown-it-footnote")
+            name: "markdown-it-footnote"
         },
         {
-            plugin: require("markdown-it-github-headings"),
+            name: "markdown-it-github-headings",
         },
         {
-            plugin: require("markdown-it-attrs"),
+            name: "markdown-it-attrs",
             options: {
                 allowedAttributes: ["id", "class", /^data(-\w+)+$/]
             }
         },
         {
-            plugin: require("markdown-it-implicit-figures"),
+            name: "markdown-it-implicit-figures",
             options: {
                 figcaption: true
             }
         },
         {
-            plugin: require("markdown-it-highlightjs")
+            name: "markdown-it-highlightjs"
         }
     ]
 }
-
-module.exports = markdown;
