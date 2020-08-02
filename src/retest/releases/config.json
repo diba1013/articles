@@ -1,5 +1,6 @@
 {
     "name": "releases",
+    "description": "Product update news",
     "files": [
         {
             "title": "Releases",

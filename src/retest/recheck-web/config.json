@@ -1,8 +1,13 @@
 {
     "name": "recheck-web",
+    "description": "Specific articles for recheck-web",
     "files": [
         {
+            "name": "index"
+        },
+        {
             "title": "Automatic Code Healing with recheck-web",
+            "description": "Showcases how recheck-web is able to perform auto-healing of your test code.",
             "name": "healing"
         }
     ]

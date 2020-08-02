@@ -1,0 +1,31 @@
+{{#if article.title}}
+# {{article.title}}
+{{else if article.root}}
+# {{category.name}}
+{{else}}
+# {{article.name}}
+{{/if}}
+
+{{#if article.description}}
+{{article.description}} {.lead}
+{{else}}
+{{category.description}} {.lead}
+{{/if}}
+
+{{#if category.categories}}
+Categories:{.h6}
+
+{{#each category.categories}}
+* [{{name}}]({{path}}): {{description}}.
+{{/each}}
+{{/if}}
+
+{{#if category.articles}}
+Articles:{.h6}
+
+{{#each category.articles}}
+{{#unless root}}
+* [{{title}}]({{path}}): {{description}}.
+{{/unless}}
+{{/each}}
+{{/if}}

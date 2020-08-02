@@ -110,11 +110,22 @@ function createCategory(root, parent, cat) {
         categories: categories,
         articles: articles,
         data: {
+            name: category.name,
+            description: category.description,
+            path: data.url,
+
             logo: data.logo,
             styles: data.styles,
-            path: data.url,
-            categories: categories ? categories.map(category => category.data) : undefined,
-            articles: articles ? articles.map(article => article.data) : undefined
+
+            categories: categories
+                ? categories
+                    .map(category => category.data)
+                : undefined,
+            articles: articles
+                ? articles
+                    .filter(article => !article.data.root)
+                    .map(article => article.data)
+                : undefined
         }
     };
 }
@@ -124,9 +135,15 @@ function createArticle(root, parent, article) {
         name: article.name,
         src: resolve(root.src, `${article.name}.md`),
         out: root.out,
-        template: article.name === "index" ? parent.templates.index || parent.templates.layout : parent.templates.layout,
+        template: parent.templates.layout,
         data: {
-            title: article.title,
+            root: article.name === "index",
+
+            name: article.name,
+            title: article.title || article.name,
+            description: article.description,
+            path: `${parent.url}/${article.name}.html`,
+
             wip: article.wip
         }
     }
