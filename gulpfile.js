@@ -67,9 +67,7 @@ function clean(src, alt) {
 
 // Category
 
-function createCategory(root, parent, cat) {
-    const category = cat.path ? require(`${root.src}/${cat.path}/config.json`) : cat;
-
+function createCategory(root, parent, category) {
     const stub = {
         src: resolve(root.src, category.name),
         out: resolve(root.out, category.name),
@@ -91,7 +89,7 @@ function createCategory(root, parent, cat) {
         url: url
     };
 
-    const categories = category.categories ? category.categories.map(c => createCategory(stub, data, c)) : undefined;
+    const categories = category.categories ? category.categories.map(child => createChild(stub, data, child)) : undefined;
     const articles = category.files ? category.files.map(a => createArticle(stub, data, a)) : undefined;
 
     return {
@@ -110,6 +108,7 @@ function createCategory(root, parent, cat) {
         categories: categories,
         articles: articles,
         data: {
+            title: category.title,
             name: category.name,
             description: category.description,
             path: data.url,
@@ -130,6 +129,13 @@ function createCategory(root, parent, cat) {
     };
 }
 
+function createChild(root, data, category) {
+    return createCategory(root, data, category.path ? {
+        name: category.path,
+        ...JSON.parse(read(`${root.src}/${category.path}/config.json`))
+    } : category)
+}
+
 function createArticle(root, parent, article) {
     return {
         name: article.name,
@@ -140,7 +146,7 @@ function createArticle(root, parent, article) {
             root: article.name === "index",
 
             name: article.name,
-            title: article.title || article.name,
+            title: article.title,
             description: article.description,
             path: `${parent.url}/${article.name}.html`,
 
