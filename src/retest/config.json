@@ -1,5 +1,6 @@
 {
-    "name": "retest",
+    "title": "retest",
+    "description": "Specific articles for retest",
     "categories": [
         {
             "path": "recheck-web"
@@ -10,8 +11,13 @@
     ],
     "files": [
         {
+            "title": "ReTest GmbH",
+            "name": "index"
+        },
+        {
             "title": "Writing a Modular Typescript Project",
             "name": "modular",
+            "description": "How to setup a project for multiple platforms",
             "wip": true
         }
     ]

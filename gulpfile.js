@@ -6,29 +6,16 @@ const fs = require("fs");
 const sass = require("gulp-sass")
 sass.compiler = require("sass");
 
-const csso = require("gulp-csso")
+const csso = require("gulp-csso");
 
-const markdown = require("gulp-markdownit")
-
-const handlebars = require("gulp-hb");
-const inline = require('gulp-inline-source')
-
-const layout = require("./config/layout.json")
-
-const src = {
-    handlebars: {
-        partials: `${layout.root}/assets/partials/**/*.hbs`,
-        template: `${layout.root}/assets/template.hbs`,
-    }
-}
+const layout = require("./config/layout.json");
 
 // Gulp pipeline options
 
 const options = {
     sass: {
         includePaths: ["node_modules"]
-    },
-    markdown: require("./config/options")
+    }
 }
 
 /* Tasks */
@@ -80,9 +67,7 @@ function clean(src, alt) {
 
 // Category
 
-function createCategory(root, parent, cat) {
-    const category = cat.path ? require(`${root.src}/${cat.path}/config.json`) : cat;
-
+function createCategory(root, parent, category) {
     const stub = {
         src: resolve(root.src, category.name),
         out: resolve(root.out, category.name),
@@ -97,19 +82,24 @@ function createCategory(root, parent, cat) {
     const data = {
         logo: exists(`${stub.src}/assets/images/logo.svg`) ? `${url}/assets/images/logo.svg` : parent.logo,
         styles: exists(`${stub.src}/assets/css/index.sass`) ? parent.styles.concat([`${url}/assets/css/index.css`]) : parent.styles,
+        templates: {
+            partials: parent.templates.partials.concat([`${stub.src}/assets/templates/partials/**/*.hbs`]),
+            layout: exists(`${stub.src}/assets/templates/layout.hbs`) ? `${stub.src}/assets/templates/layout.hbs` : parent.templates.layout,
+        },
         url: url
     };
 
-    const categories = category.categories ? category.categories.map(c => createCategory(stub, data, c)) : undefined;
-    const articles = category.files ? category.files.map(a => createArticle(stub, a)) : undefined;
+    const categories = category.categories ? category.categories.map(child => createChild(stub, data, child)) : undefined;
+    const articles = category.files ? category.files.map(a => createArticle(stub, data, a)) : undefined;
 
     return {
-        name: category.name,
-        path: stub.path,
+        name: category.name || "root",
+        path: stub.path || "root",
         options: stub.options,
         src: {
             css: `${stub.src}/assets/css/*.sass`,
-            images: `${stub.src}/assets/images/**`
+            images: `${stub.src}/assets/images/**`,
+            partials: data.templates.partials
         },
         out: {
             css: `${stub.out}/assets/css`,
@@ -118,22 +108,48 @@ function createCategory(root, parent, cat) {
         categories: categories,
         articles: articles,
         data: {
+            title: category.title,
+            name: category.name,
+            description: category.description,
+            path: data.url,
+
             logo: data.logo,
             styles: data.styles,
-            path: data.url,
-            categories: categories ? categories.map(category => category.data) : undefined,
-            articles: articles ? articles.map(article => article.data) : undefined
+
+            categories: categories
+                ? categories
+                    .map(category => category.data)
+                : undefined,
+            articles: articles
+                ? articles
+                    .filter(article => !article.data.root)
+                    .map(article => article.data)
+                : undefined
         }
     };
 }
 
-function createArticle(root, article) {
+function createChild(root, data, category) {
+    return createCategory(root, data, category.path ? {
+        name: category.path,
+        ...JSON.parse(read(`${root.src}/${category.path}/config.json`))
+    } : category)
+}
+
+function createArticle(root, parent, article) {
     return {
         name: article.name,
         src: resolve(root.src, `${article.name}.md`),
         out: root.out,
+        template: parent.templates.layout,
         data: {
+            root: article.name === "index",
+
+            name: article.name,
             title: article.title,
+            description: article.description,
+            path: `${parent.url}/${article.name}.html`,
+
             wip: article.wip
         }
     }
@@ -162,55 +178,68 @@ function compileCSS(category) {
 
 // Markdown to HTML
 
-function compileMarkdown(category, article) {
+const markdown = initMarkdown();
+
+function initMarkdown() {
+    const mardown = require("markdown-it")
+    const options = require("./config/markdown")
+    const md = mardown(options.preset || 'default', options.options);
+    for (const plugin of options.plugins) {
+        md.use(require(plugin.name), plugin.options)
+    }
+    return md;
+}
+
+
+const handlebars = require("handlebars");
+const hb = require("handlebars-wax");
+const through = require("through2");
+
+function compile(compiler, article) {
+    return through.obj((file, enc, cb) => {
+        // Is it necessary to handle file.isNull() and file.isStream()?
+        try {
+            const html = compiler.compile(read(article.template));
+            const template = compiler.compile(file.contents.toString());
+
+            const context = {
+                file: file.data,
+                article: article.data
+            }
+
+            // Compile raw markdown into file
+            const contents = Buffer.from(markdown.render(template(context, {
+                data: {
+                    server: layout.server
+                }
+            })));
+
+            // Compile html template into file
+            file.contents = Buffer.from(html(context, {
+                data: {
+                    file: {
+                        contents: contents
+                    },
+                    server: layout.server
+                }
+            }))
+
+            cb(null, file)
+        } catch (err) {
+            cb(err)
+        }
+    });
+}
+
+function compileMarkdown(compiler, category, article) {
     return private(
         `compile:html:${category.path}:${article.name}`,
         () => {
             return gulp.src(article.src)
-                .pipe(markdown(options.markdown))
-                .pipe(gulp.dest(`${article.out}/raw`))
-        }
-    )
-}
-
-function injectHTML(category, article) {
-    return private(
-        `build:html:${category.path}:${article.name}`,
-        () => {
-            const engine = handlebars()
-                .partials(src.handlebars.partials)
-                .data({
-                    category: category.data,
-                    article: article.data,
-                    server: layout.server,
-                    content: read(`${article.out}/raw/${article.name}.html`),
-                })
-
-            const template = gulp.src(src.handlebars.template)
-                .pipe(engine) //
+                .pipe(compile(compiler, article))
                 .pipe(rename(`${article.name}.html`))
-                .pipe(gulp.dest(article.out))
-
-            if (category.options.standalone) {
-                return template
-                    .pipe(inline({
-                        attribute: false,
-                        rootpath: layout.out,
-                        saveRemote: false,
-                        svgAsImage: true,
-                    }))
-                    .pipe(gulp.dest(`${article.out}/standalone`))
-            }
-
-            return template;
+                .pipe(gulp.dest(article.out));
         }
-    )
-}
-
-function buildMarkdown(category, article) {
-    return gulp.series(
-        compileMarkdown(category, article),
-        injectHTML(category, article)
     )
 }
 
@@ -223,8 +252,14 @@ function flattenTasks(category) {
     ]
 
     if (category.articles) {
+        const wax = hb(handlebars)
+            .partials(category.src.partials)
+            .data({
+                category: category.data
+            })
+
         tasks.push(gulp.parallel(
-            category.articles.map(article => buildMarkdown(category, article))
+            category.articles.map(article => compileMarkdown(wax, category, article))
         ))
     }
 
@@ -246,6 +281,9 @@ const boot = createCategory({
     path: ""
 }, {
     styles: [],
+    templates: {
+        partials: []
+    },
     url: layout.server.path
 }, require(`./${layout.root}/config.json`));
 
