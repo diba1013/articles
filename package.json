@@ -10,7 +10,7 @@
   },
   "devDependencies": {
     "bootstrap": "^4.5.2",
-    "del": "^5.1.0",
+    "del": "^6.0.0",
     "github-markdown-css": "^4.0.0",
     "gulp": "^4.0.2",
     "gulp-csso": "^4.0.1",
