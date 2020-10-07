@@ -1,10 +1,25 @@
 pull_request_rules:
+  - name: 'rebase bot PRs'
+    conditions:
+      - 'author~=^dependabot(|-preview)\[bot\]$'
+    actions:
+      comment:
+        message: '@{{author}} rebase'
+      dismiss_reviews: {}
+
   - name: 'rebase unreviewed PRs'
     conditions:
+      - '-author~=^dependabot(|-preview)\[bot\]$'
       - '#approved-reviews-by<=0'
       - '#changes-requested-reviews-by<=0'
     actions:
       rebase: {}
+
+  - name: 'approve bot PRs'
+    conditions:
+      - 'author~=^dependabot(|-preview)\[bot\]$'
+    actions:
+      review: {}
 
   - name: 'merge approved PRs'
     conditions:
@@ -15,3 +30,9 @@ pull_request_rules:
         strict: true
         strict_method: rebase
         method: merge
+
+  - name: 'delete PR branches after merge'
+    conditions:
+      - 'merged'
+    actions:
+      delete_head_branch: {}
