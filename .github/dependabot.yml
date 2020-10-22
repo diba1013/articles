@@ -5,8 +5,12 @@ updates:
     directory: "/"
     schedule:
       interval: "daily"
+    reviewers:
+      - diba1013
   # Maintain dependencies for npm
   - package-ecosystem: "npm"
     directory: "/"
     schedule:
       interval: "daily"
+    reviewers:
+      - diba1013
