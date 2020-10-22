@@ -1,12 +1,4 @@
 pull_request_rules:
-  - name: 'rebase bot'
-    conditions:
-      - 'author~=^dependabot(|-preview)\[bot\]$'
-      - 'conflict'
-    actions:
-      comment:
-        message: '@{{author}} rebase'
-
   - name: 'merge bot'
     conditions:
       - 'author~=^dependabot(|-preview)\[bot\]$'
@@ -14,7 +6,7 @@ pull_request_rules:
     actions:
       review: {}
       merge:
-        strict: smart+fasttrack
+        strict: smart
         strict_method: rebase
         method: merge
 
