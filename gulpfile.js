@@ -3,7 +3,7 @@ const del = require("del")
 const rename = require("gulp-rename")
 const fs = require("fs");
 
-const sass = require("gulp-sass")
+const sass = require("gulp-sass-no-nodesass")
 sass.compiler = require("sass");
 
 const csso = require("gulp-csso");
@@ -13,7 +13,7 @@ const layout = require("./config/layout.json");
 // Gulp pipeline options
 
 const options = {
-    sass: {
+    scss: {
         includePaths: ["node_modules"]
     }
 }
@@ -81,7 +81,7 @@ function createCategory(root, parent, category) {
     const url = resolve(parent.url, category.name);
     const data = {
         logo: exists(`${stub.src}/assets/images/logo.svg`) ? `${url}/assets/images/logo.svg` : parent.logo,
-        styles: exists(`${stub.src}/assets/css/index.sass`) ? parent.styles.concat([`${url}/assets/css/index.css`]) : parent.styles,
+        styles: exists(`${stub.src}/assets/css/index.scss`) ? parent.styles.concat([`${url}/assets/css/index.css`]) : parent.styles,
         templates: {
             partials: parent.templates.partials.concat([`${stub.src}/assets/templates/partials/**/*.hbs`]),
             layout: exists(`${stub.src}/assets/templates/layout.hbs`) ? `${stub.src}/assets/templates/layout.hbs` : parent.templates.layout,
@@ -97,7 +97,7 @@ function createCategory(root, parent, category) {
         path: stub.path || "root",
         options: stub.options,
         src: {
-            css: `${stub.src}/assets/css/*.sass`,
+            css: `${stub.src}/assets/css/*.scss`,
             images: `${stub.src}/assets/images/**`,
             partials: data.templates.partials
         },
@@ -169,7 +169,7 @@ function compileCSS(category) {
         `compile:css:${category.path}`,
         () => {
             return gulp.src(category.src.css)
-                .pipe(sass(options.sass))
+                .pipe(sass(options.scss))
                 .pipe(csso())
                 .pipe(gulp.dest(category.out.css))
         }
