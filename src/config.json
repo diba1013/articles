@@ -3,7 +3,7 @@
     "description": "A collection of random articles.",
     "categories": [
         {
-            "path": "retest"
+            "path": "web"
         }
     ],
     "files": [
