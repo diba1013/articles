@@ -19,7 +19,7 @@
     "handlebars": "^4.7.7",
     "handlebars-wax": "^6.1.0",
     "jquery": "^3.6.0",
-    "markdown-it": "^12.0.5",
+    "markdown-it": "^12.0.6",
     "markdown-it-attrs": "^4.0.0",
     "markdown-it-footnote": "^3.0.2",
     "markdown-it-github-headings": "^2.0.0",
