@@ -9,7 +9,7 @@
     "watch": "gulp watch"
   },
   "devDependencies": {
-    "bootstrap": "^5.0.2",
+    "bootstrap": "^5.1.0",
     "del": "^6.0.0",
     "github-markdown-css": "^4.0.0",
     "gulp": "^4.0.2",
