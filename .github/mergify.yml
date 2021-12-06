@@ -1,3 +1,7 @@
+queue_rules:
+  - name: default
+    conditions: []
+
 pull_request_rules:
   - name: 'merge bot'
     conditions:
@@ -5,10 +9,10 @@ pull_request_rules:
       - '-conflict'
     actions:
       review: {}
-      merge:
-        strict: smart
-        strict_method: rebase
+      queue:
+        name: default
         method: merge
+        update_method: rebase
 
   - name: 'rebase unreviewed'
     conditions:
@@ -25,10 +29,10 @@ pull_request_rules:
       - '#approved-reviews-by>=1'
       - '#changes-requested-reviews-by=0'
     actions:
-      merge:
-        strict: smart+fasttrack
-        strict_method: rebase
+      queue:
+        name: default
         method: merge
+        update_method: rebase
 
   - name: 'delete PR branches after merge'
     conditions:
