@@ -29,5 +29,7 @@
     "sass": "^1.45.2",
     "through2": "^4.0.2"
   },
-  "dependencies": {}
+  "dependencies": {
+    "highlight.js": "^11.3.1"
+  }
 }
