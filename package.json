@@ -30,6 +30,6 @@
     "through2": "^4.0.2"
   },
   "dependencies": {
-    "highlight.js": "^11.3.1"
+    "highlight.js": "^11.4.0"
   }
 }
